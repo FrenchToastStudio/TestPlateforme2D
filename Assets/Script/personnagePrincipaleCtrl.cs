@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class personnagePrincipaleCtrl : MonoBehaviour
 {
+    [SerializeField]
+    private Collider2D corpPersonnage;
+
+    //parametre qui gere les tir de balle
+    [SerializeField]
+    private GameObject balle;
+    [SerializeField]
+    private int munitionMaximum = 3;
+    private int munition = 0;
+    private bool peutTirer = true;
+    [SerializeField]
+    private float tempRecharge = 2f;
+    [SerializeField]
+    private float cadenceTir = 2;
+    private float minuteurTir = 0.0f;
+    private float scrollBar = 1.0f;
 
     //parametre qui gere les mouvement a l'honrizontale
     [SerializeField]
@@ -28,11 +44,16 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();;
         tailleAxeX = this.transform.localScale.x;
+        Time.timeScale = scrollBar;
     }
-
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(munition);
+        Debug.Log(peutTirer);
+        //rajoute du temps au minuteur de tir
+            minuteurTir += Time.deltaTime;
+
             enCourse = Input.GetButton("MouvementCourir");
             vitesseActuelle = vitesseAuSol * Input.GetAxisRaw("MouvementHorizontale");
 
@@ -40,6 +61,23 @@ public class personnagePrincipaleCtrl : MonoBehaviour
             //fait monter le personnage lorsque la touche de saut est appuyer}
             if(Input.GetButtonDown("MouvementSaut") && enSaut == false && enChute == false){
                 sauter();
+            }
+            if(munition > munitionMaximum){
+                animation.SetBool("chargeurVide", true);
+                Debug.Log("chargeur vide");
+                if(minuteurTir > tempRecharge){
+                    peutTirer = true;
+                    minuteurTir -= tempRecharge;
+                    Time.timeScale = scrollBar;
+                    munition = 0;
+                    animation.SetBool("chargeurVide", false);
+                }
+            } else {
+                if(minuteurTir > cadenceTir){
+                    peutTirer = true;
+                    minuteurTir -= cadenceTir;
+                    Time.timeScale = scrollBar;
+                }
             }
 
             //gere les tir du hero
@@ -49,6 +87,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
             } else{
                 animation.SetBool("enTir", false);
             }
+
             //permet au personnage de saccroupir Accroupir
             if(Input.GetAxisRaw("MouvementAcroupir") > 0){
                 estAccroupi = true;
@@ -76,17 +115,30 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     }
 
     //depalce le personnage de gauche a droite
-    public void Deplacer(){
+    void Deplacer(){
         this.transform.Translate(new Vector2(vitesseActuelle, 0));
     }
 
     public void tirer(){
         animation.SetBool("enTir", true);
-        if(enCourse || auSol == false || enSaut){
-
+        if(enCourse || auSol ==false || enSaut){
         } else{
             vitesseActuelle = 0;
         }
+        if(peutTirer){
+            GameObject clone = Instantiate(balle) as GameObject;
+            if(this.transform.localScale.x < 0){
+                clone.transform.position = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y + 0.25f, 0);
+                clone.GetComponent<balleCtrl>().tirerGauche();
+            } else{
+                clone.transform.position = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y + 0.25f, 0);
+            }
+            munition += 1;
+            clone.name = balle.name + munition;
+            Time.timeScale = scrollBar;
+            peutTirer = false;
+        }
+
     }
 
     //Permet de decider si le personnage tombe, est au sol, ou si il saute
