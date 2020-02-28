@@ -7,6 +7,8 @@ TagManager:
   - plateforme
   - enemi
   - drone
+  - personnagePrincipale
+  - tourelle
   layers:
   - Default
   - TransparentFX

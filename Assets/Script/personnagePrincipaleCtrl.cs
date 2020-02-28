@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class personnagePrincipaleCtrl : MonoBehaviour
 {
+    float decalageHorizontale;
+    float decalageVertical;
     [SerializeField]
-    private Collider2D corpPersonnage;
+    private int pointVie;
 
     //parametre qui gere les tir de balle
     [SerializeField]
@@ -19,7 +21,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     [SerializeField]
     private float cadenceTir = 2;
     private float minuteurTir = 0.0f;
-    private float scrollBar = 1.0f;
+    private float tempRealite = 1.0f;
 
     //parametre qui gere les mouvement a l'honrizontale
     [SerializeField]
@@ -38,19 +40,24 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     [SerializeField]
     private Animator animation;
     private Rigidbody2D rb;
+    [SerializeField]
+    private BoxCollider2D corp;
+    [SerializeField]
+    private BoxCollider2D corpAccroupi;
+    private float tailleColliderY;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();;
         tailleAxeX = this.transform.localScale.x;
-        Time.timeScale = scrollBar;
+        Time.timeScale = tempRealite;
+        tailleColliderY = corp.size.y;
     }
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(munition);
-        Debug.Log(peutTirer);
+
         //rajoute du temps au minuteur de tir
             minuteurTir += Time.deltaTime;
 
@@ -64,11 +71,10 @@ public class personnagePrincipaleCtrl : MonoBehaviour
             }
             if(munition > munitionMaximum){
                 animation.SetBool("chargeurVide", true);
-                Debug.Log("chargeur vide");
                 if(minuteurTir > tempRecharge){
                     peutTirer = true;
-                    minuteurTir -= tempRecharge;
-                    Time.timeScale = scrollBar;
+                    minuteurTir = 0;
+                    Time.timeScale = tempRealite;
                     munition = 0;
                     animation.SetBool("chargeurVide", false);
                 }
@@ -76,12 +82,11 @@ public class personnagePrincipaleCtrl : MonoBehaviour
                 if(minuteurTir > cadenceTir){
                     peutTirer = true;
                     minuteurTir -= cadenceTir;
-                    Time.timeScale = scrollBar;
+                    Time.timeScale = tempRealite;
                 }
             }
 
             //gere les tir du hero
-            Debug.Log(auSol);
             if(Input.GetAxisRaw("JoueurTir") > 0){
                 tirer();
             } else{
@@ -96,15 +101,20 @@ public class personnagePrincipaleCtrl : MonoBehaviour
                 estAccroupi = false;
             }
             //augmente la vitesse du jouer si il touche la touche pour courir
-            if(enCourse ){
+            if(enCourse){
                 vitesseActuelle += vitesseActuelle * 0.5f;
             }
 
-            //change ou le personnage face
+            //change ou le personnage facDroneCtrle
             if(Input.GetAxisRaw("MouvementHorizontale") < 0){
                 this.transform.localScale = new Vector2(-tailleAxeX, this.transform.localScale.y);
             } else if (Input.GetAxisRaw("MouvementHorizontale") > 0){
                 this.transform.localScale = new Vector2(tailleAxeX, this.transform.localScale.y);
+            }
+            if(estAccroupi){
+                enablecorpAccroupi();
+            } else {
+                enableCorp();
             }
 
             Deplacer();
@@ -112,6 +122,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
             rafrachirEtatJoueur();
 
             gererAnimation();
+
     }
 
     //depalce le personnage de gauche a droite
@@ -127,18 +138,28 @@ public class personnagePrincipaleCtrl : MonoBehaviour
         }
         if(peutTirer){
             GameObject clone = Instantiate(balle) as GameObject;
+            if(estAccroupi){
+                decalageHorizontale = 0.4f;
+                decalageVertical = -0.26f;
+            } else if(enCourse){
+                decalageHorizontale = 0.9f ;
+                decalageVertical = 0.12f;
+            } else{
+                decalageHorizontale = 0.25f;
+                decalageVertical = 0.25f;
+            }
+            clone.GetComponent<balleCtrl>().setTireur(this.tag);
             if(this.transform.localScale.x < 0){
-                clone.transform.position = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y + 0.25f, 0);
+                clone.transform.position = new Vector3(this.transform.position.x - decalageHorizontale, this.transform.position.y + decalageVertical, 0);
                 clone.GetComponent<balleCtrl>().tirerGauche();
             } else{
-                clone.transform.position = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y + 0.25f, 0);
+                clone.transform.position = new Vector3(this.transform.position.x + decalageHorizontale, this.transform.position.y + decalageVertical, 0);
             }
             munition += 1;
             clone.name = balle.name + munition;
-            Time.timeScale = scrollBar;
+            Time.timeScale = tempRealite;
             peutTirer = false;
         }
-
     }
 
     //Permet de decider si le personnage tombe, est au sol, ou si il saute
@@ -176,5 +197,25 @@ public class personnagePrincipaleCtrl : MonoBehaviour
         rb.velocity = new Vector2(0.0f, hauteurDuSaut);
     }
 
+    public void touche(){
+        Debug.Log("toucher");
+        pointVie -= 1;
+    }
 
+    public BoxCollider2D getCorpActuelle(){
+        if(this.corp.enabled){
+            return this.corp;
+        } else {
+            return this.corpAccroupi;
+        }
+    }
+
+    private void enableCorp(){
+        this.corpAccroupi.enabled = false;
+        this.corp.enabled = true;
+    }
+    private void enablecorpAccroupi(){
+        this.corpAccroupi.enabled = true;
+        this.corp.enabled = false;
+    }
 }
