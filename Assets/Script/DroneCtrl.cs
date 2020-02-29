@@ -39,6 +39,7 @@ public class DroneCtrl : MonoBehaviour
     void Update(){
         //lance le script seuelement si le drone est a une certaine Distance du personnage principale
         if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 10f){
+            gererAnimation();
             //rajoute du temps au minuteur de tir
             minuteurTir += Time.deltaTime;
 
@@ -88,7 +89,7 @@ public class DroneCtrl : MonoBehaviour
     void LateUpdate(){
         gererAnimation();
         //detruit le drone si il elle n'a plus de point de vie
-        if(pointVie < 0){
+        if(pointVie <= 0){
             Destroy(this.gameObject, 0.2f);
         }
     }
