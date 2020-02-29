@@ -69,7 +69,7 @@ public class TourelleCtrl : MonoBehaviour
     }
     void LateUpdate(){
         gererAnimation();
-        if(pointVie == 0){
+        if(pointVie < 0){
             Destroy(this.gameObject, 0.2f);
         }
     }

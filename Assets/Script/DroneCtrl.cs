@@ -88,7 +88,7 @@ public class DroneCtrl : MonoBehaviour
     void LateUpdate(){
         gererAnimation();
         //detruit le drone si il elle n'a plus de point de vie
-        if(pointVie == 0){
+        if(pointVie < 0){
             Destroy(this.gameObject, 0.2f);
         }
     }
