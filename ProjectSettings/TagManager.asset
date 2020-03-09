@@ -9,6 +9,9 @@ TagManager:
   - drone
   - personnagePrincipale
   - tourelle
+  - afficheurJoueur
+  - medpack
+  - limiteJeu
   layers:
   - Default
   - TransparentFX

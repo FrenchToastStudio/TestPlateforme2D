@@ -15,9 +15,11 @@ public class DroneCtrl : MonoBehaviour
     float decalageHorizontale= 5f;
     [SerializeField]
     float decalageVertical =  5f;
+
     [SerializeField]
     float vitesse = 0.1f;
     float vitesseActuelle;
+
     [SerializeField]
     private GameObject personnagePrincipale;
     [SerializeField]
@@ -26,7 +28,8 @@ public class DroneCtrl : MonoBehaviour
     private Animator animation;
     private bool faceDroite;
     private float tailleAxeX;
-
+    [SerializeField]
+    private int valeurEnPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -114,5 +117,9 @@ public class DroneCtrl : MonoBehaviour
             clone.transform.position = new Vector3(this.transform.position.x - decalageHorizontale, this.transform.position.y + decalageVertical, 0);
             clone.GetComponent<balleCtrl>().tirerGauche();
         }
+    }
+
+    public int getValeurEnPoint(){
+            return valeurEnPoint;
     }
 }

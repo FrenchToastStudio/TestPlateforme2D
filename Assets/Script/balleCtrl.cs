@@ -6,6 +6,7 @@ public class balleCtrl : MonoBehaviour
 {
     private float vitesse = 0.3f;
     private string tirreur;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,7 @@ public class balleCtrl : MonoBehaviour
             this.GetComponent<Animator>().SetBool("touche", true);
             Destroy(this.gameObject, 0.25f);
             vitesse = 0;
+            GameObject.FindGameObjectWithTag("afficheurJoueur").GetComponent<afficahgeInfoJoueurCtrl>().ajouterPoint(col.gameObject.GetComponent<DroneCtrl>().getValeurEnPoint());
          } else if(col.gameObject.tag == "personnagePrincipale" && tirreur != "personnagePrincipale"){
              col.gameObject.GetComponent<personnagePrincipaleCtrl>().touche();
              Destroy(this.gameObject, 0.25f);
@@ -35,6 +37,7 @@ public class balleCtrl : MonoBehaviour
              this.GetComponent<Animator>().SetBool("touche", true);
              Destroy(this.gameObject, 0.25f);
              vitesse = 0;
+             GameObject.FindGameObjectWithTag("afficheurJoueur").GetComponent<afficahgeInfoJoueurCtrl>().ajouterPoint(col.gameObject.GetComponent<TourelleCtrl>().getValeurEnPoint());
          }
     }
 

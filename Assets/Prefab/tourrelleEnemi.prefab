@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointVie: 5
+  valeurEnPoint: 100
   decalageHorizontale: 1
   decalageVertical: 0
   balle: {fileID: 5473873188031244476, guid: aa972d6922ab7303d9293fb325934812, type: 3}

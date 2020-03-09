@@ -106,7 +106,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &2391758654445513617
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,9 +191,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balle: {fileID: 5473873188031244476, guid: aa972d6922ab7303d9293fb325934812, type: 3}
-  decalageHorizontale: 0.5
+  decalageHorizontale: 0.8
   decalageVertical: -0.45
   vitesse: 0.1
   personnagePrincipale: {fileID: 0}
   pointVie: 1
   animation: {fileID: 2391758654445513618}
+  valeurEnPoint: 50

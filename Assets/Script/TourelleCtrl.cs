@@ -8,6 +8,8 @@ public class TourelleCtrl : MonoBehaviour
     [SerializeField]
     private int pointVie;
     private bool faceDroite;
+    [SerializeField]
+    private int valeurEnPoint;
 
     //parametre qui gere les tirs
     [SerializeField]
@@ -96,4 +98,7 @@ public class TourelleCtrl : MonoBehaviour
         pointVie -= 1;
     }
 
+    public int getValeurEnPoint(){
+            return valeurEnPoint;
+    }
 }
