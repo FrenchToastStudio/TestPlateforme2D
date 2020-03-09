@@ -40,51 +40,53 @@ public class DroneCtrl : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        //lance le script seuelement si le drone est a une certaine Distance du personnage principale
-        if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 10f){
-            gererAnimation();
-            //rajoute du temps au minuteur de tir
-            minuteurTir += Time.deltaTime;
+        if(Time.timeScale == 1){
+            //lance le script seuelement si le drone est a une certaine Distance du personnage principale
+            if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 10f){
+                gererAnimation();
+                //rajoute du temps au minuteur de tir
+                minuteurTir += Time.deltaTime;
 
-            //fait que le drone fait face au personnage principale
-            if(personnagePrincipale.transform.position.x > this.transform.position.x){
-                faceDroite = true;
-                this.transform.localScale = new Vector2(-tailleAxeX, this.transform.localScale.y);
-            } else {
-                faceDroite = false;
-                this.transform.localScale = new Vector2(tailleAxeX, this.transform.localScale.y);
-            }
-
-            if(Input.GetButton("MouvementCourir")){
-                vitesseActuelle = vitesse +vitesse *0.5f;
-            }
-
-
-            //peut etre qu'un jour nous aurons l'esquive
-            // if(Input.GetAxisRaw("JoueurTir") > 0){
-            //     System.Random rand = new System.Random();
-            //     if(rand.Next(0, 9) == 1){
-            //         Debug.Log("ESQUIVE");
-            //         transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + 2f, personnagePrincipale.transform.position.y +2f, personnagePrincipale.transform.position.z), 0.3f);
-            //     }
-            // }
-
-            //permet au drone de tirer
-            if(personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 > this.transform.position.y && personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 < this.transform.position.y - 0.2f){
-                if(minuteurTir > cadenceTir){
-                    tirer();
-                    minuteurTir = 0;
-                    Time.timeScale = tempRealite;
-                }
-            }
-            if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 2f){
-                if(faceDroite){
-                    transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + -3f, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+                //fait que le drone fait face au personnage principale
+                if(personnagePrincipale.transform.position.x > this.transform.position.x){
+                    faceDroite = true;
+                    this.transform.localScale = new Vector2(-tailleAxeX, this.transform.localScale.y);
                 } else {
-                    transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + 3f, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+                    faceDroite = false;
+                    this.transform.localScale = new Vector2(tailleAxeX, this.transform.localScale.y);
                 }
-            } else if( Vector3.Distance(transform.position, personnagePrincipale.transform.position) > 3f){
-                    transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+
+                if(Input.GetButton("MouvementCourir")){
+                    vitesseActuelle = vitesse +vitesse *0.5f;
+                }
+
+
+                //peut etre qu'un jour nous aurons l'esquive
+                // if(Input.GetAxisRaw("JoueurTir") > 0){
+                //     System.Random rand = new System.Random();
+                //     if(rand.Next(0, 9) == 1){
+                //         Debug.Log("ESQUIVE");
+                //         transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + 2f, personnagePrincipale.transform.position.y +2f, personnagePrincipale.transform.position.z), 0.3f);
+                //     }
+                // }
+
+                //permet au drone de tirer
+                if(personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 > this.transform.position.y && personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 < this.transform.position.y - 0.2f){
+                    if(minuteurTir > cadenceTir){
+                        tirer();
+                        minuteurTir = 0;
+                        Time.timeScale = tempRealite;
+                    }
+                }
+                if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 2f){
+                    if(faceDroite){
+                        transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + -3f, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+                    } else {
+                        transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + 3f, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+                    }
+                } else if( Vector3.Distance(transform.position, personnagePrincipale.transform.position) > 3f){
+                        transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x, personnagePrincipale.transform.position.y, personnagePrincipale.transform.position.z), vitesseActuelle);
+                }
             }
         }
     }
