@@ -88,24 +88,29 @@ public class ArrierePlanCtrl : MonoBehaviour
     bool vérifierPostionArrièrePlan(GameObject arrièrePlan) {
         if(personnagePrincipale.localScale.x > 0) {
             if(arrièrePlan.transform.position.x > personnagePrincipale.transform.position.x + Screen.width/2) {
-                return true
+                return true;
             } else {
-                return false
+                return false;
             }
-        } else if(personnagePrincipale.localScale.x < 0) {
+        } else if (personnagePrincipale.localScale.x < 0) {
             if(arrièrePlan.transform.position.x < personnagePrincipale.transform.position.x - Screen.width/2) {
                 return true;
             } else {
-                return false
+                return false;
             }
         }
-        return false
+        return false;
     }
 
     //bouge le cadre plus en avant du joueur
     void bougerCadre(Cadre cadre){
         foreach(GameObject arrièrePlan in cadre.getArrièrePlan()){
-            arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x + Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z)
+            if(personnagePrincipale.localScale.x > 0) {
+                arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x + Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z);
+            }
+            if (personnagePrincipale.localScale.x < 0) {
+                arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x - Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z)
+            }
         }
     }
 
