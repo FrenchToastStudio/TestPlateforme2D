@@ -10,16 +10,22 @@ public class ArrierePlanCtrl : MonoBehaviour
     GameObject personnagePrincipale;
     private Camera cameraJoueur;
     private Vector2 tailleEcran;
-    private int childNeded;
-    private List<ArrierePlan> arrierePlans = new List<ArrierePlan>();
-    //ArrierePlan
-    public class ArrierePlan{
-        private int cadre{get; set;}
-        private GameObject image{get; set;}
+    private int nombreCadreVoulu;
+    private List<Cadre> cadres = new List<Cadre>();
 
-        public ArrierePlan(int cadre, GameObject image){
-            this.cadre = cadre;
-            this.image = image;
+    //objet cadre
+    public class Cadre{
+        private int numero{get; set;}
+        private List<GameObject> arrièrePlans{get; set;}
+
+        public Cadre(int numero, List<GameObject> arrièrePlans){
+            this.numero = numero;
+            this.arrièrePlans = arrièrePlans;
+        }
+
+        //ajoute un arriere plan a la liste d'arrière plan
+        public ajouterArrièreplan(GameObject arrièrePlan){
+            arrièrePlans.add(arrièrePlan);
         }
     }
 
@@ -36,8 +42,9 @@ public class ArrierePlanCtrl : MonoBehaviour
 
     void chargerArrierePlan(GameObject spriteArrierePlan){
         float largeurSprite = spriteArrierePlan.GetComponent<SpriteRenderer>().bounds.size.x;
-        childNeded = (int)Mathf.Ceil(tailleEcran.x * 2 / largeurSprite);
+        nombreCadreVoulu = (int)Mathf.Ceil(tailleEcran.x * 2 / largeurSprite);
         GameObject clone = Instantiate(spriteArrierePlan) as GameObject;
+        générerCadre();
         genèreArrièrePlan(clone);
         Destroy(clone);
         Destroy(spriteArrierePlan.GetComponent<SpriteRenderer>());
@@ -48,18 +55,58 @@ public class ArrierePlanCtrl : MonoBehaviour
         gererArrièrePlan();
     }
 
-    void genèreArrièrePlan(GameObject clone){
-        for(int i = 0; i <= childNeded; i++){
+    void genèreArrièrePlan(GameObject clone) {
+        for(int i = 0; i <= nombreCadreVoulu; i++) {
             GameObject c = Instantiate(clone) as GameObject;
-            c.transform.position = new Vector3(largeurSprite * i, spriteArrierePlan.transform.position.y, spriteArrierePlan.transform.position.z);
+            c.transform.position = new Vector3(largeurSprite * i, setpriteArrierePlan.transform.position.y, spriteArrierePlan.transform.position.z);
             c.name = spriteArrierePlan.name + i;
-            arrierePlans.add(new ArrierePlan(i, c))
+            cadre[i].ajouterArrièreplan(c);
         }
     }
 
-    void gèreArrièrePlan(){
-        foreach(ArrierePlan spriteArrierePlan in arrierePlans){
-            
+    void générerCadre() {
+        for(int i = 0; i > nombreCadreVoulu; i++) {
+            cadre.add(new Cadre(nombreCadreVoulu, new List<GameObject>()))
         }
     }
+
+    void gèreArrièrePlan() {
+        int objetHorsPlan = 0;
+        foreach(Cadre cadre in cadres) {
+            objetHorsPlan = 0
+            foreach(GameObject arrièrePlan in cadre.getArrièrePlan()){
+                if(vérifierPostionArrièrePlan(arrièrePlan))
+                    objetHorsPlan += 1;
+            }
+            if(objetHorsPlan >= cadre.getArrièrePlan().Count){
+                bougerCadre(cadre);
+            }
+        }
+    }
+
+    //retourne vrai si l'ArrierePlan est hors de l'ecran
+    bool vérifierPostionArrièrePlan(GameObject arrièrePlan) {
+        if(personnagePrincipale.localScale.x > 0) {
+            if(arrièrePlan.transform.position.x > personnagePrincipale.transform.position.x + Screen.width/2) {
+                return true
+            } else {
+                return false
+            }
+        } else if(personnagePrincipale.localScale.x < 0) {
+            if(arrièrePlan.transform.position.x < personnagePrincipale.transform.position.x - Screen.width/2) {
+                return true;
+            } else {
+                return false
+            }
+        }
+        return false
+    }
+
+    //bouge le cadre plus en avant du joueur
+    void bougerCadre(Cadre cadre){
+        foreach(GameObject arrièrePlan in cadre.getArrièrePlan()){
+            arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x + Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z)
+        }
+    }
+
 }

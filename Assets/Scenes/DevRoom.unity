@@ -1204,6 +1204,16 @@ PrefabInstance:
       propertyPath: menuPerdant
       value: 
       objectReference: {fileID: 861297541}
+    - target: {fileID: 5194421419517378048, guid: 855f45978a928a172a584fba693c77b6,
+        type: 3}
+      propertyPath: menuPause
+      value: 
+      objectReference: {fileID: 1285603270}
+    - target: {fileID: 5194421419517378048, guid: 855f45978a928a172a584fba693c77b6,
+        type: 3}
+      propertyPath: afficahgeInfoJoueur
+      value: 
+      objectReference: {fileID: 26951509}
     - target: {fileID: 5194421419517378051, guid: 855f45978a928a172a584fba693c77b6,
         type: 3}
       propertyPath: m_LocalPosition.x
