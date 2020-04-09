@@ -174,7 +174,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     }
 
     //Permet de decider si le personnage tombe, est au sol, ou si il saute
-    public void rafrachirEtatJoueur(){
+    public void rafrachirEtatJoueur(){                                                      // rafraichir est mal écrit
         //personnage tombe
         if(rb.velocity.y < -0.001f){
             auSol = false;
@@ -232,7 +232,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
         this.corp.enabled = true;
     }
     //fonctione qui change la hitbox pour le sprite accroupi
-    private void enablecorpAccroupi(){
+    private void enablecorpAccroupi(){                                                                 // Le 'c' n'est pas en majuscule dans le nom de la méthode
         this.corpAccroupi.enabled = true;
         this.corp.enabled = false;
     }

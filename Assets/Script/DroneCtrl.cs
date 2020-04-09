@@ -17,8 +17,8 @@ public class DroneCtrl : MonoBehaviour
     float decalageVertical =  5f;
 
     [SerializeField]
-    float vitesse = 0.1f;
-    float vitesseActuelle;
+    float vitesse = 0.1f;                       
+    float vitesseActuelle;                      
 
     [SerializeField]
     private GameObject personnagePrincipale;
@@ -33,7 +33,7 @@ public class DroneCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vitesseActuelle = vitesse;
+        vitesseActuelle = vitesse;                                      //  Pourquoi deux vitesse si au Start ils sont de la meme valeur
         tailleAxeX = this.transform.localScale.x;
         Time.timeScale = tempRealite;
     }
@@ -57,7 +57,7 @@ public class DroneCtrl : MonoBehaviour
                 }
 
                 if(Input.GetButton("MouvementCourir")){
-                    vitesseActuelle = vitesse +vitesse *0.5f;
+                    vitesseActuelle = vitesse +vitesse *0.5f;               //  Ne revient pas a la valeur de base apres avoir couru
                 }
 
 
