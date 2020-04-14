@@ -120,14 +120,14 @@ public class personnagePrincipaleCtrl : MonoBehaviour
                     this.transform.localScale = new Vector2(tailleAxeX, this.transform.localScale.y);
                 }
                 if(estAccroupi){
-                    enablecorpAccroupi();
+                    enableCorpAccroupi();
                 } else {
                     enableCorp();
                 }
 
                 Deplacer();
 
-                rafrachirEtatJoueur();
+                rafraichirEtatJoueur();
 
                 gererAnimation();
             }
@@ -174,7 +174,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     }
 
     //Permet de decider si le personnage tombe, est au sol, ou si il saute
-    public void rafrachirEtatJoueur(){                                                      // rafraichir est mal écrit
+    public void rafraichirEtatJoueur(){
         //personnage tombe
         if(rb.velocity.y < -0.001f){
             auSol = false;
@@ -232,8 +232,7 @@ public class personnagePrincipaleCtrl : MonoBehaviour
         this.corp.enabled = true;
     }
     //fonctione qui change la hitbox pour le sprite accroupi
-    private void enablecorpAccroupi(){                                                                 // Le 'c' n'est pas en majuscule dans le nom de la méthode
-        this.corpAccroupi.enabled = true;
+    private void enableCorpAccroupi(){
         this.corp.enabled = false;
     }
 

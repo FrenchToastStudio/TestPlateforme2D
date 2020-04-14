@@ -17,8 +17,8 @@ public class DroneCtrl : MonoBehaviour
     float decalageVertical =  5f;
 
     [SerializeField]
-    float vitesse = 0.1f;                       
-    float vitesseActuelle;                      
+    float vitesse = 0.1f;
+    float vitesseActuelle;
 
     [SerializeField]
     private GameObject personnagePrincipale;
@@ -33,7 +33,7 @@ public class DroneCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vitesseActuelle = vitesse;                                      //  Pourquoi deux vitesse si au Start ils sont de la meme valeur
+        vitesseActuelle = vitesse;
         tailleAxeX = this.transform.localScale.x;
         Time.timeScale = tempRealite;
     }
@@ -57,18 +57,11 @@ public class DroneCtrl : MonoBehaviour
                 }
 
                 if(Input.GetButton("MouvementCourir")){
-                    vitesseActuelle = vitesse +vitesse *0.5f;               //  Ne revient pas a la valeur de base apres avoir couru
+                    vitesseActuelle = vitesse +vitesse *0.5f;
+                } else {
+                    vitesseActuelle = vitesse;
                 }
 
-
-                //peut etre qu'un jour nous aurons l'esquive
-                // if(Input.GetAxisRaw("JoueurTir") > 0){
-                //     System.Random rand = new System.Random();
-                //     if(rand.Next(0, 9) == 1){
-                //         Debug.Log("ESQUIVE");
-                //         transform.position =  Vector3.MoveTowards(this.transform.position, new Vector3(personnagePrincipale.transform.position.x + 2f, personnagePrincipale.transform.position.y +2f, personnagePrincipale.transform.position.z), 0.3f);
-                //     }
-                // }
 
                 //permet au drone de tirer
                 if(personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 > this.transform.position.y && personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 < this.transform.position.y - 0.2f){

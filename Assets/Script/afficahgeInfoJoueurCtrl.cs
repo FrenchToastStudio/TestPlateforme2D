@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class afficahgeInfoJoueurCtrl : MonoBehaviour            // <---Erreur dans le nom de la classe
-{                                                                            //Aucune affichage n'est présente pour les infos du joueurs
-    //afficahge nombreMunition
+public class afficahgeInfoJoueurCtrl : MonoBehaviour
+{
+    //nombreMunition
     [SerializeField]
     private GameObject compteurBalle;
     private Color couleurPrincipale;
