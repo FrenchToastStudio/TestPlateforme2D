@@ -10,7 +10,7 @@ public class ArrierePlanCtrl : MonoBehaviour
     GameObject personnagePrincipale;
     private Camera cameraJoueur;
     private Vector2 tailleEcran;
-    private int nombreCadreVoulu;
+    private int nombreCadreVoulu = 3;
     private List<Cadre> cadres = new List<Cadre>();
     private float largeurSprite;
     //objet cadre
@@ -44,6 +44,7 @@ public class ArrierePlanCtrl : MonoBehaviour
     {
         cameraJoueur = gameObject.GetComponent<Camera>();
         tailleEcran = cameraJoueur.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, cameraJoueur.transform.position.z));
+        générerCadre();
         foreach(GameObject spriteArrierePlan in ArrierePlan){
             chargerArrierePlan(spriteArrierePlan);
         }
@@ -51,9 +52,7 @@ public class ArrierePlanCtrl : MonoBehaviour
 
     void chargerArrierePlan(GameObject spriteArrierePlan){
         largeurSprite = spriteArrierePlan.GetComponent<SpriteRenderer>().bounds.size.x;
-        nombreCadreVoulu = (int)Mathf.Ceil(tailleEcran.x * 2 / largeurSprite);
         GameObject clone = Instantiate(spriteArrierePlan) as GameObject;
-        générerCadre();
         genèreArrièrePlan(clone, spriteArrierePlan);
         Destroy(clone);
         Destroy(spriteArrierePlan.GetComponent<SpriteRenderer>());
@@ -65,29 +64,30 @@ public class ArrierePlanCtrl : MonoBehaviour
     }
 
     void genèreArrièrePlan(GameObject clone, GameObject spriteArrierePlan) {
-        for(int i = 0; i <= nombreCadreVoulu; i++) {
-            clone.transform.position = new Vector3(largeurSprite * i, spriteArrierePlan.transform.position.y, spriteArrierePlan.transform.position.z);
+        Debug.Log("ca se rend ici au moins");
+        for(int i = 0; i < nombreCadreVoulu; i++) {
             GameObject c = Instantiate(clone) as GameObject;
+            c.transform.position = new Vector3(c.transform.position.x + (largeurSprite * i), spriteArrierePlan.transform.position.y, spriteArrierePlan.transform.position.z);
             c.name = spriteArrierePlan.name + i;
             cadres[i].ajouterArrièreplan(c);
         }
     }
 
     void générerCadre() {
-        for(int i = 0; i > nombreCadreVoulu; i++) {
+        for(int i = 0; i < nombreCadreVoulu; i++) {
             cadres.Add(new Cadre(nombreCadreVoulu, new List<GameObject>()));
         }
     }
 
     void gèreArrièrePlan() {
-        int objetHorsPlan = 0;
+        int objetHorsPlan;
         foreach(Cadre cadre in cadres) {
             objetHorsPlan = 0;
             foreach(GameObject arrièrePlan in cadre.getArrièrePlan()){
                 if(vérifierPostionArrièrePlan(arrièrePlan))
                     objetHorsPlan += 1;
             }
-            if(objetHorsPlan >= cadre.getArrièrePlan().Count){
+            if(objetHorsPlan == cadre.getArrièrePlan().Count){
                 bougerCadre(cadre);
             }
         }
@@ -96,13 +96,13 @@ public class ArrierePlanCtrl : MonoBehaviour
     //retourne vrai si l'ArrierePlan est hors de l'ecran
     bool vérifierPostionArrièrePlan(GameObject arrièrePlan) {
         if(personnagePrincipale.transform.localScale.x > 0) {
-            if(arrièrePlan.transform.position.x > personnagePrincipale.transform.position.x + Screen.width/2) {
+            if(arrièrePlan.transform.position.x > personnagePrincipale.transform.position.x + tailleEcran.x) {
                 return true;
             } else {
                 return false;
             }
         } else if (personnagePrincipale.transform.localScale.x < 0) {
-            if(arrièrePlan.transform.position.x < personnagePrincipale.transform.position.x - Screen.width/2) {
+            if(arrièrePlan.transform.position.x < personnagePrincipale.transform.position.x - tailleEcran.x) {
                 return true;
             } else {
                 return false;
@@ -113,14 +113,17 @@ public class ArrierePlanCtrl : MonoBehaviour
 
     //bouge le cadre plus en avant du joueur
     void bougerCadre(Cadre cadre){
-        foreach(GameObject arrièrePlan in cadre.getArrièrePlan()){
+        List<GameObject> desArrièreplan;
+        desArrièreplan = cadre.getArrièrePlan();
+        for(int i = 0;i > cadre.getArrièrePlan().Count - 1; i++){
             if(personnagePrincipale.transform.localScale.x > 0) {
-                arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x + Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z);
+                desArrièreplan[i].transform.position = new Vector3(personnagePrincipale.transform.position.x + tailleEcran.x, desArrièreplan[i].transform.position.y, desArrièreplan[i].transform.position.z);
             }
             if (personnagePrincipale.transform.localScale.x < 0) {
-                arrièrePlan.transform.position = new Vector3(personnagePrincipale.transform.position.x - Screen.width, arrièrePlan.transform.position.y, arrièrePlan.transform.position.z);
+                desArrièreplan[i].transform.position = new Vector3(personnagePrincipale.transform.position.x - tailleEcran.x, desArrièreplan[i].transform.position.y, desArrièreplan[i].transform.position.z);
             }
         }
+        cadre.setArrièrePlan(desArrièreplan);
     }
 
 }
