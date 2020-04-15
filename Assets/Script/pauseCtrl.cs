@@ -8,16 +8,14 @@ public class pauseCtrl : MonoBehaviour
     [SerializeField]
     private GameObject menuPause;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         menuPause.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetButtonDown("pause")){
-            if(menuPause.activeSelf){
+    void Update() {
+        if(Input.GetButtonDown("pause")) {
+            if(menuPause.activeSelf) {
                 reprendreJeu();
             } else {
                 pause();
@@ -25,13 +23,14 @@ public class pauseCtrl : MonoBehaviour
         }
     }
 
-    private void pause(){
+    private void pause() {
         Time.timeScale = 0;
         menuPause.SetActive(true);
     }
 
-    public void reprendreJeu(){
+    public void reprendreJeu() {
         Time.timeScale = 1;
         menuPause.SetActive(false);
     }
+    
 }

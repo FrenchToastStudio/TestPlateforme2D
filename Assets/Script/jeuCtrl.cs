@@ -15,8 +15,7 @@ public class jeuCtrl : MonoBehaviour
     [SerializeField]
     private GameObject afficahgeInfoJoueur;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         menuPerdant.SetActive(false);
         menuNiveauTerminer.SetActive(false);
         afficahgeInfoJoueur.SetActive(true);
@@ -24,9 +23,8 @@ public class jeuCtrl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetButtonDown("pause")){
+    void Update() {
+        if(Input.GetButtonDown("pause")) {
             if(menuPause.activeSelf){
                 reprendreJeu();
             } else {
@@ -34,28 +32,28 @@ public class jeuCtrl : MonoBehaviour
             }
         }
 
-        if(personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getPointVieActuelle() <= 0){
+        if(personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getPointVieActuelle() <= 0) {
             afficahgeInfoJoueur.SetActive(false);
             menuPerdant.SetActive(true);
             Time.timeScale = 0;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col){
-        if(col.gameObject.tag == "personnagePrincipale"){
+    void OnTriggerEnter2D(Collider2D col) {
+        if(col.gameObject.tag == "personnagePrincipale") {
             afficahgeInfoJoueur.SetActive(false);
             menuNiveauTerminer.SetActive(true);
             Time.timeScale = 0;
         }
     }
 
-    private void pause(){
+    private void pause() {
         menuPause.SetActive(true);
         afficahgeInfoJoueur.SetActive(false);
         Time.timeScale = 0;
     }
 
-    public void reprendreJeu(){
+    public void reprendreJeu() {
         afficahgeInfoJoueur.SetActive(true);
         Time.timeScale = 1;
         menuPause.SetActive(false);

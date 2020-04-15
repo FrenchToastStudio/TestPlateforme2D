@@ -9,17 +9,6 @@ public class sceneCtrl : MonoBehaviour
 {
 
     public Button loadSceneBtn;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void chargerScene(string sceneName){
         SceneManager.LoadSceneAsync(sceneName);

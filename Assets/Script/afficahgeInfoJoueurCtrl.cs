@@ -25,39 +25,38 @@ public class afficahgeInfoJoueurCtrl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         affichagePoint.GetComponent<Text>().text = "Point: " + pointTotale.ToString("D6");
     }
 
-    public void updateNombreMunition(int muntionActuelle){
+    public void updateNombreMunition(int muntionActuelle) {
         for(int i = 0; i < muntionActuelle; i++){
             listeAffichageMuntions[i].GetComponent<Image>().color = Color.grey;
         }
     }
 
-    public void resetNombreMunition(){
-            foreach(GameObject unSpriteRenderer in listeAffichageMuntions){
+    public void resetNombreMunition() {
+            foreach(GameObject unSpriteRenderer in listeAffichageMuntions) {
                 unSpriteRenderer.GetComponent<Image>().color = couleurPrincipale;
             }
     }
 
-    public void mettreAjourVie(int pointVie){
-        if(pointVie > 0){
+    public void mettreAjourVie(int pointVie) {
+        if(pointVie > 0) {
             barreDeVie.value = pointVie;
-        } else{
+        } else {
             barreDeVie.value = 0;
         }
         Debug.Log(pointVie);
     }
 
-    public void resetPointVie(int pointVie){
+    public void resetPointVie(int pointVie) {
         barreDeVie.maxValue = pointVie;
     }
 
 
-    public void ajouterPoint(int point){
-        if((pointTotale + point) > pointMax){
+    public void ajouterPoint(int point) {
+        if((pointTotale + point) > pointMax) {
         pointTotale += point;
         } else {
             pointTotale = pointMax;
