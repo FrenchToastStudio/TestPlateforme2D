@@ -211,7 +211,6 @@ public class personnagePrincipaleCtrl : MonoBehaviour
     }
 
     public void touche() {
-        Debug.Log("toucher");
         pointVieActuelle -= 1;
     }
 
@@ -251,5 +250,5 @@ public class personnagePrincipaleCtrl : MonoBehaviour
             pointVieActuelle = 0;
         }
     }
-    
+
 }

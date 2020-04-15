@@ -47,7 +47,6 @@ public class afficahgeInfoJoueurCtrl : MonoBehaviour
         } else {
             barreDeVie.value = 0;
         }
-        Debug.Log(pointVie);
     }
 
     public void resetPointVie(int pointVie) {

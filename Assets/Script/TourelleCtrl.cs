@@ -37,8 +37,6 @@ public class TourelleCtrl : MonoBehaviour
     void Update() {
         //fait en sorte que la tour s'active que si elle est sur l'ecran (A compelter)
         if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 5f) {
-            Debug.Log("bonne distance");
-
             //rajoute du temps au minuteur de tir
             minuteurTir += Time.deltaTime;
 
@@ -51,7 +49,6 @@ public class TourelleCtrl : MonoBehaviour
 
             //permet au drone de tirer
             if(personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 >= this.transform.position.y && personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 >= this.transform.position.y) {
-                Debug.Log("personnage en vue");
                 if(minuteurTir > cadenceTir){
                     tirer();
                     minuteurTir = 0;
@@ -73,9 +70,7 @@ public class TourelleCtrl : MonoBehaviour
     }
 
     private void tirer() {
-        Debug.Log("Genere la balle");
         GameObject clone = Instantiate(balle) as GameObject;
-
         clone.GetComponent<balleCtrl>().setTireur(this.tag);
         if(this.transform.localScale.x < 0) {
             clone.transform.position = new Vector3(this.transform.position.x + decalageHorizontale, this.transform.position.y + decalageVertical, 0);
@@ -86,12 +81,11 @@ public class TourelleCtrl : MonoBehaviour
     }
 
     public void touche() {
-        Debug.Log("estTouche");
         pointVie -= 1;
     }
 
     public int getValeurEnPoint() {
             return valeurEnPoint;
     }
-    
+
 }
