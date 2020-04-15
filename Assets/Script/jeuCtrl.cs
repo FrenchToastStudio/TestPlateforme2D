@@ -24,13 +24,15 @@ public class jeuCtrl : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if(Input.GetButtonDown("pause")) {
-            if(menuPause.activeSelf){
-                reprendreJeu();
-            } else {
-                pause();
+        if(menuPerdant.activeInHierarchy == false){
+            if(Input.GetButtonDown("pause")) {
+                    if(menuPause.activeSelf){
+                        reprendreJeu();
+                    } else {
+                        pause();
+                    }
+                }
             }
-        }
 
         if(personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getPointVieActuelle() <= 0) {
             afficahgeInfoJoueur.SetActive(false);
