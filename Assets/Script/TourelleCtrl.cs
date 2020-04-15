@@ -38,24 +38,8 @@ public class TourelleCtrl : MonoBehaviour
     void Update()
     {
         //fait en sorte que la tour s'active que si elle est sur l'ecran (A compelter)
-        if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 10f){
-
-            float positionHaut = personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y;
-            float positionBas = personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y;
-            if(positionHaut > this.transform.position.y){
-                Debug.Log("true 1");
-            }
-            if(positionBas < this.transform.position.y){
-                Debug.Log("true 2");
-            }
-            //permet a la tourelle de tirer
-            if(positionHaut > this.transform.position.y && positionBas < this.transform.position.y){
-                if(minuteurTir > cadenceTir){
-                    tirer();
-                    minuteurTir = 0;
-                    Time.timeScale = tempRealite;
-                }
-            }
+        if(Vector3.Distance(transform.position, personnagePrincipale.transform.position) < 5f){
+            Debug.Log("bonne distance");
 
             //rajoute du temps au minuteur de tir
             minuteurTir += Time.deltaTime;
@@ -67,6 +51,15 @@ public class TourelleCtrl : MonoBehaviour
                 this.transform.localScale = new Vector2(tailleAxeX, this.transform.localScale.y);
             }
 
+            //permet au drone de tirer
+            if(personnagePrincipale.transform.position.y + personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 >= this.transform.position.y && personnagePrincipale.transform.position.y - personnagePrincipale.GetComponent<personnagePrincipaleCtrl>().getCorpActuelle().size.y/2 >= this.transform.position.y) {
+                Debug.Log("personnage en vue");
+                if(minuteurTir > cadenceTir){
+                    tirer();
+                    minuteurTir = 0;
+                    Time.timeScale = tempRealite;
+                }
+            }
         }
     }
     void LateUpdate(){
